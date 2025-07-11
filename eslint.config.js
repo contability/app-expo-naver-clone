@@ -7,6 +7,9 @@ module.exports = defineConfig([
   expoConfig,
   eslintPluginPrettierRecommended,
   {
+    rules: {
+      'prettier/prettier': 'off',
+    },
     ignores: ['dist/*'],
   },
 ]);
