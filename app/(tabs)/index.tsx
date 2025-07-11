@@ -17,7 +17,7 @@ const HomeScreen = () => {
         source={{ uri: 'https://m.naver.com' }}
         //MEMO: true를 return하게 되면 이 웹뷰에서 로딩을 해주고 그 외의 사이트들은 로딩을 하지 말라는 명령이 됨.
         onShouldStartLoadWithRequest={request => {
-          console.log(request);
+          // console.log(request);
           if (
             request.url.startsWith('https://m.naver.com') ||
             request.mainDocumentURL?.startsWith('https://m.naver.com')
