@@ -1,6 +1,6 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { useMemo, useRef, useState } from 'react';
-import { Animated, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Animated, SafeAreaView, Share, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import WebView from 'react-native-webview';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
@@ -159,6 +159,14 @@ const BrowserScreen = () => {
           iconName="refresh"
           onPress={() => {
             webViewRef.current?.reload();
+          }}
+        />
+        <NavigationButton
+          iconName="share-outline"
+          onPress={() => {
+            Share.share({
+              message: url,
+            });
           }}
         />
       </View>

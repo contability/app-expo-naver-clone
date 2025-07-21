@@ -13,3 +13,12 @@
 
 - RefreshControl: ScrollView의 새로고침 상태 표시
   - https://reactnative.dev/docs/refreshcontrol
+
+6. 공유 기능 구현
+
+- Web Share API가 있지만, 지원하지 않는 브라우저가 있음
+- 하이브리드 앱에 장점! 네이티브 기능을 사용할 수 있는 것
+- React Native Share API를 통해 네이티브 공유 기능을 호출 가능
+
+- https://developer.mozilla.org/en-US/docs/Web/APl/Navigator/share
+- https://reactnative.dev/docs/share
