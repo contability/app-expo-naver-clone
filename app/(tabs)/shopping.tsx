@@ -1,7 +1,8 @@
 import { router } from 'expo-router';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useContext, useRef, useState } from 'react';
 import { RefreshControl, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import WebView from 'react-native-webview';
+import { WebViewContext } from '../components/webview-provider';
 
 const styles = StyleSheet.create({
   safearea: {
@@ -15,6 +16,8 @@ const ShoppingScreen = () => {
   const [refreshing, setRefreshing] = useState(false);
 
   const webViewRef = useRef<WebView>(null);
+
+  const context = useContext(WebViewContext);
 
   const handleRefresh = useCallback(() => {
     if (webViewRef.current) {
@@ -35,7 +38,12 @@ const ShoppingScreen = () => {
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
       >
         <WebView
-          ref={webViewRef}
+          ref={ref => {
+            if (ref !== null) {
+              webViewRef.current = ref;
+              context?.addWebView(ref);
+            }
+          }}
           source={{
             uri: SHOPPING_HOME_URL,
           }}

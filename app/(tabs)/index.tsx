@@ -1,7 +1,9 @@
 import { router } from 'expo-router';
+import { useContext } from 'react';
 import { Platform, StatusBar, StyleSheet, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import WebView from 'react-native-webview';
+import { WebViewContext } from '../components/webview-provider';
 
 const styles = StyleSheet.create({
   safearea: {
@@ -11,9 +13,13 @@ const styles = StyleSheet.create({
 });
 
 const HomeScreen = () => {
+  const context = useContext(WebViewContext);
   return (
     <SafeAreaView style={styles.safearea}>
       <WebView
+        ref={ref => {
+          if (ref !== null) context?.addWebView(ref);
+        }}
         source={{ uri: 'https://m.naver.com' }}
         //MEMO: true를 return하게 되면 이 웹뷰에서 로딩을 해주고 그 외의 사이트들은 로딩을 하지 말라는 명령이 됨.
         onShouldStartLoadWithRequest={request => {

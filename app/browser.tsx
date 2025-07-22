@@ -1,8 +1,9 @@
 import { router, useLocalSearchParams } from 'expo-router';
-import { useMemo, useRef, useState } from 'react';
+import { useContext, useMemo, useRef, useState } from 'react';
 import { Animated, SafeAreaView, Share, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import WebView from 'react-native-webview';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { WebViewContext } from './components/webview-provider';
 
 const styles = StyleSheet.create({
   safearea: {
@@ -84,6 +85,8 @@ const BrowserScreen = () => {
   const progressAnimation = useRef(new Animated.Value(0)).current;
   const webViewRef = useRef<WebView>(null);
 
+  const context = useContext(WebViewContext);
+
   const urlTitle = useMemo(() => url.replace('https://', '').split('/')[0], [url]);
 
   return (
@@ -107,7 +110,12 @@ const BrowserScreen = () => {
         />
       </View>
       <WebView
-        ref={webViewRef}
+        ref={ref => {
+          if (ref !== null) {
+            webViewRef.current = ref;
+            context?.addWebView(ref);
+          }
+        }}
         source={{ uri: initialUrl }}
         // MEMO: 현재 접속해있는 페이지 정보를 가져올 수 있음.
         onNavigationStateChange={event => {
