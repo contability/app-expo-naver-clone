@@ -1,9 +1,10 @@
 import { router } from 'expo-router';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { Platform, StatusBar, StyleSheet, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import WebView from 'react-native-webview';
 import { WebViewContext } from '../components/webview-provider';
+import useLogin from '../../hooks/use-login';
 
 const styles = StyleSheet.create({
   safearea: {
@@ -14,6 +15,7 @@ const styles = StyleSheet.create({
 
 const HomeScreen = () => {
   const context = useContext(WebViewContext);
+  const { loadLoggedIn, onMessage } = useLogin();
   return (
     <SafeAreaView style={styles.safearea}>
       <WebView
@@ -30,9 +32,9 @@ const HomeScreen = () => {
           )
             return true;
 
-          //MEMO: url에 about:blank 이런식의 값이 들어가있을 때도 있으니 https:// 로 시작하는 것만 허용.
+          // MEMO: url에 about:blank 이런식의 값이 들어가있을 때도 있으니 https:// 로 시작하는 것만 허용.
           if (request.url !== null && request.url.startsWith('https://')) {
-            //MEMO: browser screen으로 이동 시켜버리기.
+            // MEMO: browser screen으로 이동 시켜버리기.
             router.navigate({
               pathname: 'browser',
               params: { initialUrl: request.url },
@@ -41,10 +43,14 @@ const HomeScreen = () => {
           }
           return true;
         }}
-        //MEMO: 세로 스크롤 스타일 제거
+        // MEMO: 세로 스크롤 스타일 제거
         showsVerticalScrollIndicator={false}
-        //MEMO: 가로 스크롤 스타일 제거
+        // MEMO: 가로 스크롤 스타일 제거
         showsHorizontalScrollIndicator={false}
+        onLoadEnd={() => {
+          loadLoggedIn();
+        }}
+        onMessage={onMessage}
       />
     </SafeAreaView>
   );
