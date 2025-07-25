@@ -11,7 +11,6 @@ const LoginButton = () => {
   const [isFocused, setIsFocused] = useState(false);
 
   useFocusEffect(() => {
-    console.log('🚀 ~ LoginButton ~ isLoggedIn:', isLoggedIn);
     // 스크린에 보여지고 있을 때 isFocused를 true로 변경
     setIsFocused(true);
     // 스크린에 안보일 땐 isFocused를 false로 변경

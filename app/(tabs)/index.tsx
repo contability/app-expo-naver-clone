@@ -1,10 +1,11 @@
 import { router } from 'expo-router';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { Platform, StatusBar, StyleSheet, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import WebView from 'react-native-webview';
 import { WebViewContext } from '../components/webview-provider';
 import useLogin from '../../hooks/use-login';
+import { useBackHandler } from '@react-native-community/hooks';
 
 const styles = StyleSheet.create({
   safearea: {
@@ -14,12 +15,23 @@ const styles = StyleSheet.create({
 });
 
 const HomeScreen = () => {
+  const [canGoBack, setCanGoBack] = useState(false);
+
+  const webViewRef = useRef<WebView>(null);
+
   const context = useContext(WebViewContext);
   const { loadLoggedIn, onMessage } = useLogin();
+
+  useBackHandler(() => {
+    if (canGoBack && webViewRef.current !== null) webViewRef.current?.goBack();
+    // true 리턴하면 기본 백버튼 효과 비활성화
+    return true;
+  });
   return (
     <SafeAreaView style={styles.safearea}>
       <WebView
         ref={ref => {
+          webViewRef.current = ref;
           if (ref !== null) context?.addWebView(ref);
         }}
         source={{ uri: 'https://m.naver.com' }}
@@ -51,6 +63,9 @@ const HomeScreen = () => {
           loadLoggedIn();
         }}
         onMessage={onMessage}
+        onNavigationStateChange={event => {
+          setCanGoBack(event.canGoBack);
+        }}
       />
     </SafeAreaView>
   );

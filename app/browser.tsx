@@ -89,6 +89,19 @@ const BrowserScreen = () => {
 
   const urlTitle = useMemo(() => url.replace('https://', '').split('/')[0], [url]);
 
+  const DISABLE_WEBVIEW_EFFECT = `(function() {
+    // 핀치줌 비활성화 함수
+    const meta = document.createElement('meta');
+    meta.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no');
+    meta.setAttribute('name', 'viewport');
+    document.getElementsByTagName('head')[0].appendChild(meta);
+  
+    // android 텍스트 롱 프레스 효과 비활성화
+    document.body.style['user-select'] = 'none';
+    // iOS 텍스트 롱 프레스 효과 비활성화
+    document.body.style['-webkit-user-select'] = 'none';
+  })();`;
+
   return (
     <SafeAreaView style={styles.safearea}>
       {/* 상단 URL 노출 부분 */}
@@ -135,6 +148,9 @@ const BrowserScreen = () => {
           // console.log('Load End');
           progressAnimation.setValue(0);
         }}
+        injectedJavaScript={DISABLE_WEBVIEW_EFFECT}
+        onMessage={() => {}}
+        allowsLinkPreview={false}
       />
       <View style={styles.navigator}>
         <TouchableOpacity

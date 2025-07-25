@@ -1469,6 +1469,11 @@
   dependencies:
     "@radix-ui/react-compose-refs" "1.1.2"
 
+"@react-native-community/hooks@^100.1.0":
+  version "100.1.0"
+  resolved "https://registry.yarnpkg.com/@react-native-community/hooks/-/hooks-100.1.0.tgz#34cfa9e986b84a8babfe667dc3ec497954aef8f1"
+  integrity sha512-aXESGr6WcnwyeIl+SiCLNFpbApzTmupyYzm2OkGjMuwHr42+a3G65xxTxN/xHuNdTVWO0dXbOwyLgEkQ0i/qZg==
+
 "@react-native/assets-registry@0.79.4":
   version "0.79.4"
   resolved "https://registry.yarnpkg.com/@react-native/assets-registry/-/assets-registry-0.79.4.tgz#6b1f6c843ae7b6e6e6804f897c182301c0f03d8c"
